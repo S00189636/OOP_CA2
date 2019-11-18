@@ -1,0 +1,26 @@
+﻿<Window x:Class="CA2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CA2"
+        mc:Ignorable="d"
+        Title="Activity Planner" Height="650.471" Width="953.441" Loaded="Window_Loaded" ResizeMode="CanMinimize">
+    <Grid>
+        <ListBox x:Name="lsitBoxAllActivities" HorizontalAlignment="Left" Height="354" Margin="135,139,0,0" VerticalAlignment="Top" Width="320" SelectionChanged="LsitBoxAllActivities_SelectionChanged"/>
+        <ListBox x:Name="lsitBoxSelectedActivities" HorizontalAlignment="Left" Height="354" Margin="585,139,0,0" VerticalAlignment="Top" Width="320" SelectionChanged="lsitBoxSelectedActivities_SelectionChanged"/>
+        <TextBlock HorizontalAlignment="Left" Margin="135,113,0,0" TextWrapping="Wrap" Text="All Activities" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Margin="585,113,0,0" TextWrapping="Wrap" Text="Selected Activities" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        <RadioButton x:Name="radioAll" Content="All" HorizontalAlignment="Left" Margin="32,174,0,0" VerticalAlignment="Top" GroupName="ActivityType" IsChecked="True" Checked="RadioAll_Checked"/>
+        <RadioButton x:Name="radioWater" Content="Water" HorizontalAlignment="Left" Margin="32,216,0,0" VerticalAlignment="Top" GroupName="ActivityType" Checked="RadioWater_Checked"/>
+        <RadioButton x:Name="radioAir" Content="Air" HorizontalAlignment="Left" Margin="32,253,0,0" VerticalAlignment="Top" GroupName="ActivityType" Checked="RadioAir_Checked"/>
+        <RadioButton x:Name="radioLand" Content="Land" HorizontalAlignment="Left" Margin="32,305,0,0" VerticalAlignment="Top" GroupName="ActivityType" Checked="RadioLand_Checked"/>
+        <Button x:Name="btnAddToSelected" Content="-&gt;&gt;" HorizontalAlignment="Left" Margin="486,245,0,0" VerticalAlignment="Top" Width="76" Click="BtnAddToSelected_Click"/>
+        <Button x:Name="AddToAll" Content="&lt;&lt;-" HorizontalAlignment="Left" Margin="486,378,0,0" VerticalAlignment="Top" Width="76" Click="AddToAll_Click"/>
+        <TextBlock x:Name="txtblokDescription_" HorizontalAlignment="Left" Margin="135,550,0,0" TextWrapping="Wrap" Text="Nothing is selected" VerticalAlignment="Top" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="135,518,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Text="Description :"/>
+        <TextBlock HorizontalAlignment="Left" Margin="631,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Text="Total Cost:"/>
+        <TextBlock x:Name="txtblokTotalCost" HorizontalAlignment="Left" Margin="816,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Text="£500"/>
+        <TextBlock HorizontalAlignment="Left" Margin="135,34,0,0" TextWrapping="Wrap" Text="Activity Planner" VerticalAlignment="Top" FontSize="32" FontWeight="Bold" Foreground="#FF259DB8"/>
+    </Grid>
+</Window>
