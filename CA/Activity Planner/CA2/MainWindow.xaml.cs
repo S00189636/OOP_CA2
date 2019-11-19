@@ -30,7 +30,6 @@ namespace CA2
         public MainWindow()
         {
             InitializeComponent();
-
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -44,8 +43,6 @@ namespace CA2
             {
                 Activities.Add(RandomActivity());
             }
-
-            //AllActivities = CopyList(Activities, AllActivities);
             CopyList(Activities, AllActivities);
             lsitBoxAllActivities.ItemsSource = AllActivities;
             lsitBoxSelectedActivities.ItemsSource = SelectedActivities;
@@ -53,93 +50,20 @@ namespace CA2
             SetTotalCost();
         }
 
-        // will return a copy of an ObservableCollection list 
-        //private ObservableCollection<Activity> CopyList(ObservableCollection<Activity> fromList, ObservableCollection<Activity> toList)
-        private void CopyList(ObservableCollection<Activity> fromList, ObservableCollection<Activity> toList)
+        #region Radio buttons Checked
+        // when checked fillter the list 
+        private void BtnRadio_Checked(object sender, RoutedEventArgs e)
         {
-            // if the source is null do nothing
-            if (fromList == null)
-                return ;
-            foreach (Activity item in fromList)
-            {
-                //fill the list from the source list
-                toList.Add(item);
-            }
-            //return toList;
-        }
-        // will return a sorted copy of an ObservableCollection list 
-        private ObservableCollection<Activity> SortList(ObservableCollection<Activity> listToSort)
-        {
-            if (listToSort == null)
-                return listToSort;
-            // if the source is null do nothing
-            List<Activity> activityList = listToSort.ToList();
-            activityList.Sort();
-            listToSort.Clear();
-            foreach (Activity item in activityList)
-            {
-                listToSort.Add(item);
-            }
-            return listToSort;
+            ActivityType Type;
+            Enum.TryParse((sender as RadioButton).Content.ToString(), out Type);
+            Filter(Type);
+            Highlight(sender);
         }
 
-        private Activity RandomActivity()
-        {
-            // this will creat a new activity with random data 
-            Activity activity;
-            string[] names = { "Keyaking","Parachuting","Hang Gliding","Sailing","Helicopter Tour"};
-            string name = names[random.Next(0, names.Length)] ;
-            DateTime Date = new DateTime(random.Next(2019, 2025), random.Next(3, 11), random.Next(1, 31));
-            decimal Cost = random.Next(20, 120);
-            ActivityType Type = (ActivityType)random.Next(0, 3);
-            activity = new Activity(name, Date, Cost, Type);
-            activity.Description = string.Format("This is the description of the activity {0} of type {1}" ,name, Type.ToString());
-            return activity;
-        }
-
-        private void FilterAll(ActivityType type)
-        {
-            if (AllActivities != null)
-                AllActivities.Clear();
-            switch (type)
-            {
-                case ActivityType.Land:
-                case ActivityType.Air:
-                case ActivityType.Water:
-                    foreach (Activity activity in Activities)
-                    {
-                        if (activity.Type == type)
-                            AllActivities.Add(activity);
-                    }
-                    break;
-                case ActivityType.All:
-                    //AllActivities = CopyList(Activities, AllActivities);
-                    CopyList(Activities, AllActivities);
-                    break;
-            }
-            SortAll();
-        }
-
-        private void RadioAll_Checked(object sender, RoutedEventArgs e)
-        {
-            FilterAll(ActivityType.All);
-        }
-
-        private void RadioWater_Checked(object sender, RoutedEventArgs e)
-        {
-            FilterAll(ActivityType.Water);
-        }
-
-        private void RadioAir_Checked(object sender, RoutedEventArgs e)
-        {
-            FilterAll(ActivityType.Air);
-        }
-
-        private void RadioLand_Checked(object sender, RoutedEventArgs e)
-        {
-            FilterAll(ActivityType.Land);
-        }
-
+        #endregion
+        #region Buttons methods 
+        // when add button is clicked remove the selected item from all lists and add it to selected list 
+        // when remove button is clicked add the item back to all list and activities list and remove it from selected list
         private void BtnAddToSelected_Click(object sender, RoutedEventArgs e)
         {
             Activity activity = lsitBoxAllActivities.SelectedItem as Activity;
@@ -164,7 +88,21 @@ namespace CA2
             SetTotalCost();
             SortAll();
         }
-
+        #endregion
+        #region listBox methods
+        // when the user change the selection of an item from the list box it will show the item description 
+        private void SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListBox listBox = sender as ListBox;
+            if (listBox.SelectedIndex < 0 || listBox.SelectedIndex > AllActivities.Count)
+                return;
+            Activity activity = listBox.SelectedItem as Activity;
+            if (activity != null)
+                txtblokDescription_.Text = activity.GetDescription();
+        }
+        #endregion
+        #region all other methods
+        // this will set the total cost for all the items added to the selected list
         private void SetTotalCost()
         {
             if (SelectedActivities == null || SelectedActivities.Count < 0)
@@ -181,30 +119,91 @@ namespace CA2
             }
             txtblokTotalCost.Text = string.Format("{0:c}", total);
         }
-
-        private void LsitBoxAllActivities_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        // will return a copy of an ObservableCollection list 
+        private void CopyList(ObservableCollection<Activity> fromList, ObservableCollection<Activity> toList)
         {
-            if (lsitBoxAllActivities.SelectedIndex < 0 || lsitBoxAllActivities.SelectedIndex > AllActivities.Count)
+            // if the source is null do nothing
+            if (fromList == null)
                 return;
-            Activity activity = AllActivities[lsitBoxAllActivities.SelectedIndex];
-            if (activity != null)
-                txtblokDescription_.Text = activity.GetDescription();
+            foreach (Activity item in fromList)
+            {
+                //fill the list from the source list
+                toList.Add(item);
+            }
+            //return toList;
+        }
+        // will return a sorted copy of an ObservableCollection list 
+        private ObservableCollection<Activity> SortList(ObservableCollection<Activity> listToSort)
+        {
+            if (listToSort == null)
+                return listToSort;
+            // if the source is null do nothing
+            List<Activity> activityList = listToSort.ToList();
+            activityList.Sort();
+            listToSort.Clear();
+            foreach (Activity item in activityList)
+            {
+                listToSort.Add(item);
+            }
+            return listToSort;
         }
 
-        private void lsitBoxSelectedActivities_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //will return an auto generated 'Activity' object
+        private Activity RandomActivity()
         {
-            if (lsitBoxSelectedActivities.SelectedIndex < 0 || lsitBoxSelectedActivities.SelectedIndex > SelectedActivities.Count)
-                return;
-            Activity activity = SelectedActivities[lsitBoxSelectedActivities.SelectedIndex];
-            if (activity != null)
-                txtblokDescription_.Text = activity.GetDescription();
+            // this will creat a new activity with random data 
+            Activity activity;
+            string[] names = { "Keyaking", "Parachuting", "Hang Gliding", "Sailing", "Helicopter Tour" };
+            string name = names[random.Next(0, names.Length)];
+            DateTime Date = new DateTime(random.Next(2019, 2025), random.Next(3, 11), random.Next(1, 31));
+            decimal Cost = random.Next(20, 120);
+            ActivityType Type = (ActivityType)random.Next(0, 3);
+            string Description = string.Format("This is the description of the activity {0} of type {1}", name, Type.ToString());
+            activity = new Activity(name, Date, Cost, Type, Description);
+            return activity;
         }
 
+        //this will highlight the selected Radio button for 7  seconds
+        async private Task Highlight(object obj)
+        {
+            RadioButton radio = obj as RadioButton;
+            radio.BorderBrush = Brushes.Red;
+            radio.Background = Brushes.Blue;
+            await Task.Delay(600);
+            radio.BorderBrush = Brushes.Gray;
+            radio.Background = Brushes.White;
+        }
+
+        // fillters the lift hand side listBox 
+        private void Filter(ActivityType type)
+        {
+            if (AllActivities != null)
+                AllActivities.Clear();
+            switch (type)
+            {
+                case ActivityType.Land:
+                case ActivityType.Air:
+                case ActivityType.Water:
+                    foreach (Activity activity in Activities)
+                    {
+                        if (activity.Type == type)
+                            AllActivities.Add(activity);
+                    }
+                    break;
+                case ActivityType.All:
+                    CopyList(Activities, AllActivities);
+                    break;
+            }
+            SortAll();
+        }
+
+        // when called it will sort all the list by date
         private void SortAll()
         {
             Activities = SortList(Activities);
             AllActivities = SortList(AllActivities);
             SelectedActivities = SortList(SelectedActivities);
         }
+        #endregion
     }
 }
