@@ -13,7 +13,7 @@ namespace CA2
         Water,//2
         All//3
     }
-    class Activity : IComparable
+    public class Activity : IComparable
     {
         string Name;
         DateTime Date;
@@ -27,7 +27,7 @@ namespace CA2
             Date = date;
             Cost = cost;
             Type = type;
-            Description =Name+" "+Type+" "+Cost;
+            Description = Name + " " + Type + " " + Cost;
         }
 
         // this is used to creat an object with description 
@@ -44,12 +44,13 @@ namespace CA2
             return activity.Date.CompareTo(Date);
         }
 
-        // used in listbx
+        // used in listbx item string 
         public override string ToString()
         {
             return string.Format("{0} -{1}", Name, Date.ToShortDateString());
         }
 
+        // will return a formatted string 
         public string GetDescription()
         {
             return string.Format("{0}, Cost - {1:c}", Description, Cost);
