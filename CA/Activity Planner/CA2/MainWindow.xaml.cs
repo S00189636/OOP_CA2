@@ -37,12 +37,15 @@ namespace CA2
             Activities = new ObservableCollection<Activity>();
             SelectedActivities = new ObservableCollection<Activity>();
             AllActivities = new ObservableCollection<Activity>();
-            random = new Random();
+            //random = new Random();
             // fill the list with random activities 
-            for (int i = 0; i < 6; i++)
-            {
-                Activities.Add(RandomActivity());
-            }
+            //for (int i = 0; i < 6; i++)
+            //{
+            //    Activities.Add(RandomActivity());
+            //}
+
+            // using the code from the moodle
+            CreatActivities();
             CopyList(Activities, AllActivities);
             lsitBoxAllActivities.ItemsSource = AllActivities;
             lsitBoxSelectedActivities.ItemsSource = SelectedActivities;
@@ -152,18 +155,113 @@ namespace CA2
 
 
         //will return an auto generated 'Activity' object
-        private Activity RandomActivity()
+        //private Activity RandomActivity()
+        //{
+        //    // this will creat a new activity with random data 
+        //    Activity activity;
+        //    string[] names = { "Keyaking", "Parachuting", "Hang Gliding", "Sailing", "Helicopter Tour" };
+        //    string name = names[random.Next(0, names.Length)];
+        //    DateTime Date = new DateTime(random.Next(2019, 2025), random.Next(3, 11), random.Next(1, 31));
+        //    decimal Cost = random.Next(20, 120);
+        //    ActivityType Type = (ActivityType)random.Next(0, 3);
+        //    string Description = string.Format("This is the description of the activity {0} of type {1}", name, Type.ToString());
+        //    activity = new Activity(name, Date, Cost, Type, Description);
+        //    return activity;
+        //}
+
+        private void CreatActivities()
         {
-            // this will creat a new activity with random data 
-            Activity activity;
-            string[] names = { "Keyaking", "Parachuting", "Hang Gliding", "Sailing", "Helicopter Tour" };
-            string name = names[random.Next(0, names.Length)];
-            DateTime Date = new DateTime(random.Next(2019, 2025), random.Next(3, 11), random.Next(1, 31));
-            decimal Cost = random.Next(20, 120);
-            ActivityType Type = (ActivityType)random.Next(0, 3);
-            string Description = string.Format("This is the description of the activity {0} of type {1}", name, Type.ToString());
-            activity = new Activity(name, Date, Cost, Type, Description);
-            return activity;
+            Activity l1 = new Activity()
+            {
+                Name = "Treking",
+                Description = "Instructor led group trek through local mountains.",
+                Date = new DateTime(2019, 06, 01),
+                Type = ActivityType.Land,
+                Cost = 20m
+            };
+
+            Activity l2 = new Activity()
+            {
+                Name = "Mountain Biking",
+                Description = "Instructor led half day mountain biking.  All equipment provided.",
+                Date = new DateTime(2019, 06, 02),
+                Type = ActivityType.Land,
+                Cost = 30m
+            };
+
+            Activity l3 = new Activity()
+            {
+                Name = "Abseiling",
+                Description = "Experience the rush of adrenaline as you descend cliff faces from 10-500m.",
+                Date = new DateTime(2019, 06, 03),
+                Type = ActivityType.Land,
+                Cost = 40m
+            };
+
+            Activity w1 = new Activity()
+            {
+                Name = "Kayaking",
+                Description = "Half day lakeland kayak with island picnic.",
+                Date = new DateTime(2019, 06, 01),
+                Type = ActivityType.Water,
+                Cost = 40m
+            };
+
+            Activity w2 = new Activity()
+            {
+                Name = "Surfing",
+                Description = "2 hour surf lesson on the wild atlantic way",
+                Date = new DateTime(2019, 06, 02),
+                Type = ActivityType.Water,
+                Cost = 25m
+            };
+
+            Activity w3 = new Activity()
+            {
+                Name = "Sailing",
+                Description = "Full day lakeland kayak with island picnic.",
+                Date = new DateTime(2019, 06, 03),
+                Type = ActivityType.Water,
+                Cost = 50m
+            };
+
+            Activity a1 = new Activity()
+            {
+                Name = "Parachuting",
+                Description = "Experience the thrill of free fall while you tandem jump from an airplane.",
+                Date = new DateTime(2019, 06, 01),
+                Type = ActivityType.Air,
+                Cost = 100m
+            };
+
+            Activity a2 = new Activity()
+            {
+                Name = "Hang Gliding",
+                Description = "Soar on hot air currents and enjoy spectacular views of the coastal region.",
+                Date = new DateTime(2019, 06, 02),
+                Type = ActivityType.Air,
+                Cost = 80m
+            };
+
+            Activity a3 = new Activity()
+            {
+                Name = "Helicopter Tour",
+                Description = "Experience the ultimate in aerial sight-seeing as you tour the area in our modern helicopters",
+                Date = new DateTime(2019, 06, 03),
+                Type = ActivityType.Air,
+                Cost = 200m
+            };
+
+            Activities.Add(l1);
+            Activities.Add(l2);
+            Activities.Add(l3);
+            Activities.Add(w1);
+            Activities.Add(w2);
+            Activities.Add(w3);
+            Activities.Add(a1);
+            Activities.Add(a2);
+            Activities.Add(a3);
+            SortList(Activities);
         }
 
         //this will highlight the selected Radio button for 6  seconds
