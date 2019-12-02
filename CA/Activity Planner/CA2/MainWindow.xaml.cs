@@ -75,7 +75,7 @@ namespace CA2
             SetTotalCost();
             SortAll();
         }
-
+        // handels the add button click event 
         private void AddToAll_Click(object sender, RoutedEventArgs e)
         {
             Activity activity = lsitBoxSelectedActivities.SelectedItem as Activity;
@@ -101,7 +101,7 @@ namespace CA2
                 txtblokDescription_.Text = activity.GetDescription();
         }
         #endregion
-        #region all other methods
+        #region all other methods (sorting and copying)
         // this will set the total cost for all the items added to the selected list
         private void SetTotalCost()
         {
@@ -132,6 +132,7 @@ namespace CA2
             }
             //return toList;
         }
+
         // will return a sorted copy of an ObservableCollection list 
         private ObservableCollection<Activity> SortList(ObservableCollection<Activity> listToSort)
         {
@@ -148,6 +149,8 @@ namespace CA2
             return listToSort;
         }
 
+
+
         //will return an auto generated 'Activity' object
         private Activity RandomActivity()
         {
@@ -163,7 +166,7 @@ namespace CA2
             return activity;
         }
 
-        //this will highlight the selected Radio button for 7  seconds
+        //this will highlight the selected Radio button for 6  seconds
         async private Task Highlight(object obj)
         {
             RadioButton radio = obj as RadioButton;
@@ -174,30 +177,28 @@ namespace CA2
             radio.Background = Brushes.White;
         }
 
-        // fillters the lift hand side listBox 
+        // fillters the left hand side listBox 
         private void Filter(ActivityType type)
         {
             if (AllActivities != null)
                 AllActivities.Clear();
             switch (type)
             {
-                case ActivityType.Land:
-                case ActivityType.Air:
-                case ActivityType.Water:
+                case ActivityType.All:
+                    CopyList(Activities, AllActivities);
+                    break;
+                default:
                     foreach (Activity activity in Activities)
                     {
                         if (activity.Type == type)
                             AllActivities.Add(activity);
                     }
                     break;
-                case ActivityType.All:
-                    CopyList(Activities, AllActivities);
-                    break;
             }
             SortAll();
         }
 
-        // when called it will sort all the list by date
+        // when called, it will sort all the lists by using CompareTo
         private void SortAll()
         {
             Activities = SortList(Activities);

@@ -15,12 +15,14 @@ namespace CA2
     }
     public class Activity : IComparable
     {
-        string Name;
-        DateTime Date;
-        public decimal Cost { get; private set; } // get is public but can only be set in the constractor 
-        public ActivityType Type { get; private set; }
-        public string Description { get; set; } // this is public set and get 
+        public string Name { get; set; }
+        public DateTime Date { get; set; }
+        public decimal Cost { get;  set; } 
+        public ActivityType Type { get;  set; }
+        public string Description { get; set; } 
 
+        public Activity() { }
+        // used to creat random activity
         public Activity(string name, DateTime date, decimal cost, ActivityType type)
         {
             Name = name;
