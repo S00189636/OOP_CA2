@@ -26,7 +26,7 @@ namespace CA2
         ObservableCollection<Activity> SelectedActivities; // this will hold the activities 
         ObservableCollection<Activity> AllActivities; // this will hold filtterd activities 
 
-        Random random; // will use it to genrate random activities 
+        //Random random; // will use it to genrate random activities 
         public MainWindow()
         {
             InitializeComponent();
@@ -71,7 +71,22 @@ namespace CA2
         {
             Activity activity = lsitBoxAllActivities.SelectedItem as Activity;
             if (activity == null)
+            {
+                MessageBox.Show($"Nothing is selected", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
+            }
+            
+            foreach (Activity item in SelectedActivities)
+            {
+                if(activity.Date == item.Date)
+                {
+                    // show something 
+                    //MessageBox.Show($"'{item.Name}' is in the same date \n try removing it first");
+                    MessageBox.Show($"'{item.Name}' is on the same date \n try removing it first","Date Conflict",MessageBoxButton.OK,MessageBoxImage.Exclamation);
+                    return;
+                }
+            }
+
             SelectedActivities.Add(activity);
             AllActivities.Remove(activity);
             Activities.Remove(activity);
@@ -84,7 +99,10 @@ namespace CA2
             Activity activity = lsitBoxSelectedActivities.SelectedItem as Activity;
             radioAll.IsChecked = true;
             if (activity == null)
+            {
+                MessageBox.Show($"Nothing is selected", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
+            }
             AllActivities.Add(activity);
             Activities.Add(activity);
             SelectedActivities.Remove(activity);
@@ -99,8 +117,8 @@ namespace CA2
             ListBox listBox = sender as ListBox;
             if (listBox.SelectedIndex < 0 || listBox.SelectedIndex > AllActivities.Count)
                 return;
-            Activity activity = listBox.SelectedItem as Activity;
-            if (activity != null)
+            Activity activity = (sender as ListBox).SelectedItem as Activity;
+            //if (activity != null)
                 txtblokDescription_.Text = activity.GetDescription();
         }
         #endregion

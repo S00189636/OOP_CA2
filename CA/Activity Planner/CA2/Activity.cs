@@ -43,7 +43,9 @@ namespace CA2
         public int CompareTo(object obj)
         {
             Activity activity = obj as Activity;
-            return activity.Date.CompareTo(Date);
+            
+            return this.Date.CompareTo(activity.Date);
+            
         }
 
         // used in listbx item string 
@@ -57,6 +59,8 @@ namespace CA2
         {
             return string.Format("{0}, Cost - {1:c}", Description, Cost);
         }
+
+        
 
     }
 }
